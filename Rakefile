@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "blind_date"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{DBMS-indepedent methods to query dates in ActiveRecord}
+    gem.description = %Q{Allows you to utilize date calculation functionality of DBMS with a uniform API}
     gem.email = "aepstein607@gmail.com"
     gem.homepage = "http://github.com/aepstein/blind_date"
     gem.authors = ["Ari Epstein"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency "activerecord", ">= 2.3.4"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -43,3 +44,4 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+

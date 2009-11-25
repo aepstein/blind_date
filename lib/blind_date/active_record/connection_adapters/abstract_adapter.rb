@@ -9,7 +9,6 @@ module BlindDate
 
         # Performs arithmetic on string is an SQL-escaped date/time/datetime or returns a date/time/datetime
         def date_add(date, interval, unit = 'SECOND', diff = false )
-          date = quote(date) if date.acts_like?(:time) || date.acts_like?(:date)
           case interval
           when ActiveSupport::Duration
             interval.parts.inject( date ) do |memo, span|
@@ -22,6 +21,13 @@ module BlindDate
           else
             raise ArgumentError
           end
+        end
+
+        # Returns name of adapter suitable for loading related classes
+        # Should have same output as instance method of same name
+        # TODO: Kludgy: maybe upstream could provide a class method?
+        def adapter_name
+          to_s.underscore[ /\/([^\/]+)_adapter$/, 1 ].gsub( '_', '' )
         end
 
         private
@@ -37,7 +43,7 @@ module BlindDate
 
         # Will attempt to load the correct behavior if this is not already provided
         def date_add_sql( sql, interval, unit, operator )
-          require "blind_date/active_record/connection_adapters/#{adapter_name.downcase}_adapter.rb"
+          require "blind_date/active_record/connection_adapters/#{adapter_name}_adapter"
           date_add_sql( sql, interval, unit, operator )
         end
 
@@ -46,5 +52,5 @@ module BlindDate
   end
 end
 
-ActiveRecord::ConnectionAdapters::AbstractAdapter.send(:include, BlindDate::ActiveRecord::ConnectionAdapters::AbstractAdapter)
+ActiveRecord::ConnectionAdapters::AbstractAdapter.extend BlindDate::ActiveRecord::ConnectionAdapters::AbstractAdapter
 

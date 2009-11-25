@@ -12,5 +12,5 @@ module BlindDate
   end
 end
 
-ActiveRecord::ConnectionAdapters::MysqlAdapter.send(:include,BlindDate::ActiveRecord::ConnectionAdapters::MysqlAdapter)
+ActiveRecord::ConnectionAdapters::MysqlAdapter.extend BlindDate::ActiveRecord::ConnectionAdapters::MysqlAdapter
 

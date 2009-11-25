@@ -19,5 +19,5 @@ module BlindDate
   end
 end
 
-ActiveRecord::ConnectionAdapters::SQLiteAdapter.send(:include, BlindDate::ActiveRecord::ConnectionAdapters::SQLiteAdapter)
+ActiveRecord::ConnectionAdapters::SQLiteAdapter.extend BlindDate::ActiveRecord::ConnectionAdapters::SQLiteAdapter
 

@@ -4,7 +4,14 @@ module BlindDate
       module PostgresqlAdapter
 
         def date_add_sql( sql, interval, unit, operator )
-          "( #{sql} #{operator} '#{interval} #{unit}' )"
+          case interval
+          when Numeric
+            "( #{sql} #{operator} '#{interval} #{unit}' )"
+          when String
+            "( #{sql} #{operator} #{interval} || ' #{unit}')"
+          else
+            raise ArgumentError
+          end
         end
 
       end

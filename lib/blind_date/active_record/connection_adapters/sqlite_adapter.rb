@@ -4,7 +4,14 @@ module BlindDate
       module SQLiteAdapter
 
         def date_add_sql( sql, interval, unit, operator )
-          "DATETIME( #{sql}, '#{operator}#{interval.abs} #{unit}' )"
+          case interval
+          when Numeric
+            "DATETIME( #{sql}, '#{operator}#{interval} #{unit}' )"
+          when String
+            "DATETIME( #{sql}, '#{operator}' || #{interval} || ' #{unit}' )"
+          else
+            raise ArgumentError
+          end
         end
 
       end

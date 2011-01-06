@@ -3,7 +3,7 @@ module BlindDate
     module ConnectionAdapters
       module PostgresqlAdapter
         module ClassMethods
-          def date_add_sql( sql, interval, unit, operator )
+          def date_add_sql( style, sql, interval, unit, operator )
             case interval
             when Numeric
               "( #{sql} #{operator} '#{interval} #{unit}' )"

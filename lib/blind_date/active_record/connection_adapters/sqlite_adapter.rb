@@ -3,14 +3,19 @@ module BlindDate
     module ConnectionAdapters
       module SQLiteAdapter
         module ClassMethods
-          def date_add_sql( sql, interval, unit, operator )
+          def date_add_sql( style, sql, interval, unit, operator )
+            date_function = case style
+              when :date then 'DATE'
+              when :datetime then 'DATETIME'
+              when :time then 'TIME'
+            end
             case interval
-            when Numeric
-              "DATETIME( #{sql}, '#{operator}#{interval} #{unit}' )"
-            when String
-              "DATETIME( #{sql}, '#{operator}' || #{interval} || ' #{unit}' )"
-            else
-              raise ArgumentError
+              when Numeric
+                "#{date_function}( #{sql}, '#{operator}#{interval} #{unit}' )"
+              when String
+                "#{date_function}( #{sql}, '#{operator}' || #{interval} || ' #{unit}' )"
+              else
+                raise ArgumentError
             end
           end
         end
